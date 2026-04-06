@@ -17,9 +17,11 @@ A lightweight, web-based Python execution environment built with **Flask**. This
 ### Prerequisites
 * Python 3.x
 * Flask
+* And pycharm
 
 ### Installation & Setup
 1. **Clone the repository:**
    ```bash
+   (
    git clone [https://github.com/namanyawalkar2006/online-python-compiler.git](https://github.com/namanyawalkar2006/online-python-compiler.git)
-   cd online-python-compiler
+   cd online-python-compiler )
