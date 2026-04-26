@@ -1095,7 +1095,7 @@ function downloadPDF() {
     filename:    `${name}_Resume.pdf`,
     image:       { type: "jpeg", quality: 1.0 },
     html2canvas: { 
-      scale: 3, // Increased scale for ultra-sharp text
+      scale: 2, // Safe optimal scale that prevents memory canvas blowouts leading to blank PDFs
       useCORS: true, 
       backgroundColor: "#ffffff",
       letterRendering: true,
@@ -1109,9 +1109,20 @@ function downloadPDF() {
   // Ensure the document is visible and styled correctly before capture
   const originalBoxShadow = el.style.boxShadow;
   el.style.boxShadow = 'none';
-  
+
+  // Temporarily disable editing to fix blank PDF bug in html2canvas
+  el.removeAttribute("contenteditable");
+  const editables = el.querySelectorAll("[contenteditable]");
+  editables.forEach(node => {
+     node.removeAttribute("contenteditable");
+     node.style.outline = "none";
+  });
+
   html2pdf().set(opt).from(el).save().then(() => {
     el.style.boxShadow = originalBoxShadow;
+    // Restore editing
+    el.setAttribute("contenteditable", "true");
+    editables.forEach(node => node.setAttribute("contenteditable", "true"));
     showToast("PDF downloaded! ✅", "success");
   });
 }
